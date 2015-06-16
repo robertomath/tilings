@@ -8,6 +8,9 @@ class Vector3():
         self.y = y
         self.z = z
 
+    def __repr__(self):
+        return "Vector3(%f, %f, %f)"%(self.x, self.y, self.z)
+        
     def __hash__(self):
         return hash((Vector3, self.x, self.y, self.z))
         

@@ -7,6 +7,9 @@ class Vector2():
         self.x = x
         self.y = y
 
+    def __repr__(self):
+        return "Vector2(%f, %f)"%(self.x, self.y)
+        
     def __hash__(self):
         return hash((Vector2, self.x, self.y))
         
