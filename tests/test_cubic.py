@@ -1,15 +1,12 @@
 import unittest
 
 from restrict32 import restrict32
-from tiling3 import cubic_tiling
+from tiling3 import unit_cube, cubic_tiling
 from vector2 import Vector2
 from vector3 import Vector3
 
 
-class CubicTilingTest(unittest.TestCase):
-
-    def setUp(self):
-        self.tiling = cubic_tiling(1,8,2,8,3,8)
+class TilingTest():
 
     def type_tiling2(self, t):
         """
@@ -51,7 +48,7 @@ class CubicTilingTest(unittest.TestCase):
                 for v in e:
                     self.assertIsInstance(v, Vector3, "faces should be made up of frozensets made up of vertices")
         self.assertIsInstance(t.volumes, set, "volumes should form a set")
-        for g in t.faces:
+        for g in t.volumes:
             self.assertIsInstance(g, frozenset, "volumes should be frozensets")
             for f in g:
                 self.assertIsInstance(f, frozenset, "volumes should be made up of frozensets")
@@ -59,6 +56,23 @@ class CubicTilingTest(unittest.TestCase):
                     self.assertIsInstance(e, frozenset, "volumes should be made up of frozensets made up of frozensets")
                     for v in e:
                         self.assertIsInstance(v, Vector3, "volumes should be made up of frozensets made up of frozensets made up of vertices")
+
+
+
+class UnitCubeTest(TilingTest, unittest.TestCase):
+
+    def setUp(self):
+        self.cube = unit_cube()
+
+    def test_type(self):
+        self.type_tiling3(self.cube)
+
+
+
+class CubicTilingTest(TilingTest, unittest.TestCase):
+
+    def setUp(self):
+        self.tiling = cubic_tiling(1,8,2,8,3,8)
 
     def test_type(self):
         self.type_tiling3(self.tiling)

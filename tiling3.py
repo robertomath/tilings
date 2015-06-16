@@ -52,7 +52,7 @@ class Tiling3():
         e = dict((a,frozenset(v[i] for i in a)) for a in self.edges)
         f = dict((a,frozenset(e[i] for i in a)) for a in self.faces)
         g = dict((a,frozenset(f[i] for i in a)) for a in self.volumes)
-        return Tiling3(frozenset(v.itervalues()),frozenset(e.itervalues()),frozenset(f.itervalues()),frozenset(g.itervalues()))
+        return Tiling3(v.itervalues(), e.itervalues(), f.itervalues(), g.itervalues())
             
     def translate(self, offset):
         return self.deform(lambda x: x+offset)

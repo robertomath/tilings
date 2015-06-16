@@ -34,6 +34,6 @@ def restrict32(t):
     for g in t.volumes:
         f = frozenset(newe[f1] for f1 in g if f1 in newe)
         if f:
-            newf.append(g) 
+            newf.append(f)
             
     return Tiling2(newv.itervalues(), newe.itervalues(), newf)
