@@ -64,13 +64,34 @@ class Tiling3():
         return self.deform(matrix) # matrix action is overloaded function call
 
     def sort_out_duplicates(self, epsilon=0.000001):
-        l = list(self.vertices)
+        """
+        Replace very close vertices by the same vertex.
+
+        This is more efficient than before: we sort by x
+        coordinate. In groups where the x coordinates are close, we
+        sort by y coordinate. In groups where that too is close, we
+        sort by z coordinate. Consecutive pairs where that is again
+        close are identified.
+        """
+        lx = sorted(self.vertices, key=lambda v:v.x)
         d = {}
-        for (i,v1) in enumerate(l):
-            for v2 in reversed(l[i+1:]):
-                if v1.distance(v2) < epsilon:
-                    d[v1] = v2
-                    break
+        i1 = 0
+        while i1 < len(lx):
+            i2 = i1+1
+            while i2 < len(lx) and abs(lx[i2-1].x-lx[i2].x) < epsilon:
+                i2 += 1
+            ly = sorted(lx[i1:i2], key=lambda v:v.y)
+            j1 = 0
+            while j1 < len(ly):
+                j2 = j1+1
+                while j2 < len(ly) and abs(ly[j2-1].y-ly[j2].y) < epsilon:
+                    j2 += 1
+                lz = sorted(ly[j1:j2], key=lambda v:v.z)
+                for k in xrange(1,len(lz)):
+                    if abs(lz[k-1].z-lz[k].z) < epsilon:
+                        d[lz[k]] = d.get(lz[k-1],lz[k-1])
+                j1 = j2
+            i1 = i2
         return self.deform(lambda v: d.get(v,v))            
 
     def union(self, other, epsilon=0.000001):
