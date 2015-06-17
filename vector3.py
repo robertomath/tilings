@@ -32,9 +32,13 @@ class Vector3():
 
     def __mul__(self, s):
         return Vector3(s*self.x, s*self.y, s*self.z)
+        
+    def __div__(self, s): 
+        return Vector3(self.x/s, self.y/s, self.z/s)
 
     def norm(self):
         return sqrt(self.x*self.x + self.y*self.y + self.z*self.z)
+    
     
     def distance(self, other):
         return (self-other).norm()
